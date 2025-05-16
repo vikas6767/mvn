@@ -8,7 +8,11 @@ steps:
 # Step 1: Checkout code
 - checkout: self
 
-# Step 2: Maven build and test
+# Step 2: Echo message
+- script: echo "Starting Maven Build Pipeline"
+  displayName: 'Echo Start Message'
+
+# Step 3: Maven build and test
 - task: Maven@3
   inputs:
     mavenPomFile: 'pom.xml'
@@ -20,7 +24,7 @@ steps:
     publishJUnitResults: true
     testResultsFiles: '**/target/surefire-reports/TEST-*.xml'
 
-# Step 3: Publish test results
+# Step 4: Publish test results
 - task: PublishTestResults@2
   inputs:
     testResultsFiles: '**/target/surefire-reports/TEST-*.xml'
