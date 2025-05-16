@@ -5,28 +5,17 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-# Step 1: Checkout code
-- checkout: self
+# Step 1: Echo message
+- script: echo "🚀 Azure Pipeline is running!"
+  displayName: 'Echo Message'
 
-# Step 2: Echo message
-- script: echo "Starting Maven Build Pipeline"
-  displayName: 'Echo Start Message'
-
-# Step 3: Maven build and test
+# Step 2: Maven build
 - task: Maven@3
   inputs:
     mavenPomFile: 'pom.xml'
     goals: 'clean package'
-    options: ''
     javaHomeOption: 'JDKVersion'
     jdkVersionOption: '1.11'
     mavenVersionOption: 'Default'
     publishJUnitResults: true
     testResultsFiles: '**/target/surefire-reports/TEST-*.xml'
-
-# Step 4: Publish test results
-- task: PublishTestResults@2
-  inputs:
-    testResultsFiles: '**/target/surefire-reports/TEST-*.xml'
-    mergeTestResults: true
-    testRunTitle: 'Maven Unit Test Results'
