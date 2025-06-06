@@ -1,5 +1,3 @@
-deploy.yml
-
 - name: Deploy artifact
   hosts: localhost
   become: true  # If you need sudo/root access
