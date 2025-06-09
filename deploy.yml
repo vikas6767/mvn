@@ -7,6 +7,14 @@
         path: /opt/deploy1
         state: directory
         mode: '0755'
+        
+    - name: List files in target directory
+      ansible.builtin.shell: ls -l /var/lib/jenkins/workspace/mvn4/target/
+      register: ls_output
+
+    - name: Show ls command output
+      ansible.builtin.debug:
+      var: ls_output.stdout
 
     - name: Copy the artifact to the deployment directory
       copy:
