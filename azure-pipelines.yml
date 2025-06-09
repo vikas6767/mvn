@@ -1,21 +1,21 @@
 trigger:
 - main
 
+# Use your self-hosted agent pool
 pool:
-  vmImage: 'ubuntu-latest'
+  name: default
 
 steps:
-# Step 1: Echo message
-- script: echo "🚀 Azure Pipeline is running!"
-  displayName: 'Echo Message'
+# ✅ Set JAVA_HOME manually if JDK 11 is already installed on the self-hosted agent
 
-# Step 2: Maven build
-- task: Maven@3
+# ✅ Maven build step
+- task: Maven@4
   inputs:
     mavenPomFile: 'pom.xml'
-    goals: 'clean package'
-    javaHomeOption: 'JDKVersion'
-    jdkVersionOption: '1.11'
-    mavenVersionOption: 'Default'
+    mavenOptions: '-Xmx3072m'
+    javaHomeOption: 'Path'
+    jdkDirectory: '$(JAVA_HOME)'  # Uses the manually set JAVA_HOME
     publishJUnitResults: true
-    testResultsFiles: '**/target/surefire-reports/TEST-*.xml'
+    testResultsFiles: '**/surefire-reports/TEST-*.xml'
+    goals: 'package'
+
